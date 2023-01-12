@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Add To Project</h3>
+
+<EditForm Model="_employee" OnValidSubmit="AddEmployeeToProject">
+    <div class="form-group row">
+        <label for="project" class="col-sm-2 col-form-label">
+            Select Project
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="project" @bind-Value="_employee.ProjectId" class="form-control">
+                <option>--- Select Project ---</option>
+                @foreach (var project in Projects)
+                {
+                    <option value="@project.ProjectId">@project.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <br/>
+     <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</EditForm>

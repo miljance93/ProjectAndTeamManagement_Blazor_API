@@ -1,0 +1,71 @@
+﻿<h3>Create New Project</h3>
+
+<EditForm Model="_project" OnValidSubmit="CreateProject" class="mt-5">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Project Name:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="name" class="form-control" @bind-Value="_project.Name" />
+            <ValidationMessage For="@(() => _project.Name)" />
+        </div>
+    </div>
+    <br />
+     <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Start Date:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputDate class="form-control" @bind-Value="_project.StartDate" />
+            <ValidationMessage For="@(() => _project.StartDate)" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">End Date:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputDate class="form-control" @bind-Value="_project.EndDate" />
+            <ValidationMessage For="@(() => _project.EndDate)" />
+        </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Path:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="path" class="form-control" @bind-Value="_project.Path" />
+            <ValidationMessage For="@(() => _project.Path)" />
+        </div>
+    </div>
+    <br />
+     <div class="form-group row">
+        <label for="projectStatus" class="col-sm-2 col-form-label">
+            Select Project Status
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="projectStatus" @bind-Value="_project.ProjectStatusId" class="form-control">
+                <option>--- Select Status ---</option>
+                @foreach (var projectStatus in ProjectStatuses)
+                {
+                    <option value="@projectStatus.ProjectStatusId">@projectStatus.ProjectStatusName</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <label for="projectLead" class="col-sm-2 col-form-label">
+            Select Project Lead
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="projetLead" @bind-Value="_project.ProjectLeadId" class="form-control">
+                <option value="">--- Select Employee ---</option>
+                @foreach (var employee in Employees)
+                {
+                    <option value="@employee.Id">@employee.FullName</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</EditForm>

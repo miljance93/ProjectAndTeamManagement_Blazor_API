@@ -1,0 +1,33 @@
+﻿@page "/projectlead/currentassignments"
+
+<h1>Current Assignments</h1>
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Project</th>
+                <th>Team</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Employees)
+            {
+                <tr>
+                    <td>@employee.Email</td>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.LastName</td>
+                    <td>@Projects.FirstOrDefault(x => x.ProjectId == employee.ProjectId)?.Name</td>
+                    <td>@Teams.FirstOrDefault(x => x.TeamId == employee.TeamId)?.TeamName</td>
+                    <td>@Projects.FirstOrDefault(x => x.ProjectId == employee.ProjectId)?.StartDate</td>
+                    <td>@Projects.FirstOrDefault(x => x.ProjectId == employee.ProjectId)?.EndDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

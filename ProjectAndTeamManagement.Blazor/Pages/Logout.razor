@@ -1,0 +1,16 @@
+﻿@page "/logout"
+
+<Microsoft.AspNetCore.Components.Authorization.CascadingAuthenticationState>
+    <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+        <Authorized>
+            <div class="container mt-5">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <p><h2>You are about to logout!</h2></p>
+                        <button class="btn btn-primary" @onclick="ExecuteLogout">Log out</button>
+                    </div>
+                </div>
+            </div>
+        </Authorized>
+    </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+</Microsoft.AspNetCore.Components.Authorization.CascadingAuthenticationState>

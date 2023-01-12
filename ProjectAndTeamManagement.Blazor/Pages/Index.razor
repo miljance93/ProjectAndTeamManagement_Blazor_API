@@ -1,0 +1,92 @@
+﻿@page "/home"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>Index</PageTitle>
+
+        <div class="container overflow-auto shadow-sm p-3 mb-5 bg-white rounded" style="height: 500px">
+            @if(!messages.Any())
+            {
+                <p>~~~No messages yet, start chatting~~~</p>
+            }
+
+            @foreach(var message in messages)
+            {
+                <div class="row mb-3 d-flex">
+                    <div class="card-shadow" style="width: 18rem">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">@message.</li>
+                        </ul>
+                        <div class="card-footer">
+                            <span class="small">@DateTime.Now</span>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <input @bind="userInput" type="text" class="form-control" placeholder="Your name" readonly="@isUserReadonly"/>
+                </div>
+                <div class="col-6">
+                    <textarea @bind="messageInput" class="form-control" placeholder="Start typing..."></textarea>
+                </div>
+                <div class="col-3">
+                    <button type="button" @onclick="Send" disabled="@(!IsConnected)" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+       
+        @code {
+        private HubConnection? hubConnection;
+        private List<string> messages = new List<string>();
+        private string? userInput;
+        private string? messageInput;
+        private bool isUserReadonly = false;
+
+        protected override async Task OnInitializedAsync()
+        {
+            hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("https://localhost:7147/chathub"))
+            .Build();
+
+            hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+            {
+                var encodedMsg = $"{user}: {message}";
+                messages.Add(encodedMsg);
+                InvokeAsync(StateHasChanged);
+            });
+
+            await hubConnection.StartAsync();
+        }
+
+        private async Task Send()
+        {
+            if (hubConnection is not null)
+            {
+                await hubConnection.SendAsync("SendMessage", userInput, messageInput);
+
+                isUserReadonly = true;
+                messageInput = string.Empty;
+            }
+        }
+
+        public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+        public async ValueTask DisposeAsync()
+        {
+            if (hubConnection is not null)
+            {
+                await hubConnection.DisposeAsync();
+            }
+        }
+        }
+    </Authorized>
+</AuthorizeView>

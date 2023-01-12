@@ -1,0 +1,37 @@
+﻿@page "/login"
+<h3>Login</h3>
+
+@if (ShowAuthError)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+
+<EditForm Model="_userForAuthentication" OnValidSubmit="ExecuteLogin">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Email:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="email" class="form-control" @bind-Value="_userForAuthentication.Email" />
+            <ValidationMessage For="@(() => _userForAuthentication.Email)" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group row">
+        <label for="password" class="col-md-2 col-form-label">Password:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText type="password" id="password" class="form-control" @bind-Value="_userForAuthentication.Password" />
+            <ValidationMessage For="@(() => _userForAuthentication.Password)" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Login</button>
+        </div>
+        <div class="col-md-12 text-right">
+            <button class="btn btn-primary" @onclick="GoogleSignIn">Google Sign in</button>
+        </div>
+    </div>
+</EditForm>

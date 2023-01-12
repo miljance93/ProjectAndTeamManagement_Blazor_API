@@ -1,0 +1,122 @@
+﻿@using ManagementApp.Blazor.Services.Interfaces
+@using Microsoft.AspNetCore.Components.Authorization
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href=""></a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <CascadingAuthenticationState>
+            <AuthorizeView>
+                <Authorized>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
+                            <span class="oi oi-home" aria-hidden="true"></span> Home
+                        </NavLink>
+                    </div>
+                    @if (context.User.IsInRole("Admin"))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="admin/employeeoverview">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Employee Overview
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="admin/createnewemployee">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Create New Employee
+                            </NavLink>
+                        </div>
+                    }
+                    @if (context.User.IsInRole("Department Lead"))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="departmentlead/projectassignment">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Project Assignment
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="departmentlead/projectmanagement">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Project Management
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="departmentlead/teammanagement/list">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Team Management
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="departmentlead/currentassignments">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Current Assignments
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="departmentlead/assignmentrequests">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Assignment Requests
+                            </NavLink>
+                        </div>
+                    }
+                    @if (context.User.IsInRole("Team Lead"))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="teamlead/assignmentrequests">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Assignment Requests
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="teamlead/projectassignment">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Project Assignment
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="teamlead/currentassignments">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Current Assignments
+                            </NavLink>
+                        </div>
+                    }
+                    @if (context.User.IsInRole("Project Lead"))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="projectlead/assignmentrequests">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Assignment Requests
+                            </NavLink>
+                        </div>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="projectlead/currentassignments">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Current Assignments
+                            </NavLink>
+                        </div>
+                    }
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="logout">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Logout
+                        </NavLink>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="login">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Login
+                        </NavLink>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
+        </CascadingAuthenticationState>
+    </nav>
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

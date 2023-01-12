@@ -1,0 +1,43 @@
+﻿
+@page "/departmentlead/assignmentrequests"
+
+<h1>Assignment Requests</h1>
+
+<div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Requested From</th>
+                <th scope="col">Request For</th>
+                <th scope="col">For Project</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Requests)
+            {
+                <tr>
+                    <td>@request.RequestId</td>
+                    <td>@Employees.FirstOrDefault(x => x.Id == request.ProjectLeadId)?.FullName</td>
+                    <td>@Employees.FirstOrDefault(x => x.Id == request.EmployeeId)?.FullName</td>
+                    <td>@Projects.FirstOrDefault(x => x.ProjectId == request.ProjectId)?.Name</td> 
+                    <td>@request.StartDate</td>
+                    <td>@request.EndDate</td>
+                    <td>@RequestStatuses.FirstOrDefault(x => x.RequestStatusId == request.RequestStatusId)?.StatusName</td>
+                    @if(request.RequestStatusId == 1)
+                    {
+                        <td>
+                            <button class="btn btn-primary" @onclick="() => ApproveRequest(request.RequestId)">Approve</button>
+                            <button class="btn btn-danger" @onclick="() => DeclineRequest(request.RequestId)">Decline</button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

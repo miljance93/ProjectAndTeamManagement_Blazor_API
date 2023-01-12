@@ -1,0 +1,49 @@
+﻿@page "/projectlead/assignmentrequests"
+
+<h1>Assignment Requests</h1>
+
+<div>
+    <button style='display: @(createNewRequest ? "none" : "block")' class="btn btn-primary" @onclick="() => createNewRequest= true">Create New</button>
+    @if (createNewRequest)
+    {
+        <CreateNewRequest />
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Request To</th>
+                    <th scope="col">Request For</th>
+                    <th scope="col">For Project</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in Requests)
+                {
+                    <tr>
+                        <td>@request.RequestId</td>
+                        @if (request.TeamLeadId != null)
+                        {
+                            <td>@Employees.FirstOrDefault(x => x.Id == request.TeamLeadId)?.FullName</td>
+                        }
+                        else
+                        {
+                            <td>@Employees.FirstOrDefault(x => x.Id == request.DepartmentLeadId)?.FullName</td>
+                        }
+                        <td>@Employees.FirstOrDefault(x => x.Id == request.EmployeeId)?.FullName</td>
+                        <td>@Project.Name</td>
+                        <td>@Project.StartDate</td>
+                        <td>@Project.EndDate</td>
+                        <td>@RequestStatuses.FirstOrDefault(x => x.RequestStatusId == request.RequestStatusId)?.StatusName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

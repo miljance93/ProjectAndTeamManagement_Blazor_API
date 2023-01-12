@@ -1,0 +1,32 @@
+﻿<h4>Create New Team</h4>
+
+<EditForm Model="_team" OnValidSubmit="CreateTeam">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="name" class="col-md-2 col-form-label">Team Name:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="teamName" class="form-control" @bind-Value="_team.TeamName" />
+            <ValidationMessage For="@(() => _team.TeamName)" />
+        </div>
+    </div>
+    <br/>
+     <div class="form-group row">
+        <label for="employeeId" class="col-sm-2 col-form-label">
+            Select Team Lead
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="employeeId" @bind-Value="_team.TeamLeadId" class="form-control">
+                <option>--- Select Team  Lead---</option>
+                @foreach (var employee in Employees)
+                {
+                    <option value="@employee.Id">@employee.FullName</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</EditForm>

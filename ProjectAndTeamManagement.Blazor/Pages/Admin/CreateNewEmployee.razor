@@ -1,0 +1,60 @@
+﻿@page "/admin/createnewemployee"
+
+<h3>Create New Employee</h3>
+
+<br/>
+
+<EditForm Model="_userForRegistration" OnValidSubmit="ExecuteRegister" class="mt-5">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">First Name:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="firstName" class="form-control" @bind-Value="_userForRegistration.FirstName" />
+            <ValidationMessage For="@(() => _userForRegistration.FirstName)" />
+        </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Last Name:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="lastName" class="form-control" @bind-Value="_userForRegistration.LastName" />
+            <ValidationMessage For="@(() => _userForRegistration.LastName)" />
+        </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Email:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText id="email" class="form-control" @bind-Value="_userForRegistration.Email" />
+            <ValidationMessage For="@(() => _userForRegistration.Email)" />
+        </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <label for="password" class="col-md-2 col-form-label">Password:</label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputText type="password" id="password" class="form-control" @bind-Value="_userForRegistration.Password" />
+            <ValidationMessage For="@(() => _userForRegistration.Password)" />
+        </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <label for="role" class="col-sm-2 col-form-label">
+            Role
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="role" @bind-Value="_userForRegistration.RoleId" class="form-control">
+                @foreach (var role in Roles)
+                {
+                    <option value="@role.RoleId">@role.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</EditForm>

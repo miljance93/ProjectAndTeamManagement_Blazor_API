@@ -1,0 +1,58 @@
+﻿@page "/projectlead/createnewrequest"
+
+
+
+<h4>Create New Request</h4>
+
+<EditForm Model="_request" OnValidSubmit="CreateRequest">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="leadId" class="col-sm-2 col-form-label">
+            Request To
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="leadId" @bind-Value="_request.LeadId" class="form-control">
+                <option value="">--- Select Lead ---</option>
+                @foreach (var employee in Employees.Where(x => x.RoleId == "2" || x.RoleId == "3"))
+                {
+                    <option value="@employee.Id">@employee.FullName</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <br />
+    <div class="form-group row">
+        <label for="employeeId" class="col-sm-2 col-form-label">
+            Request For
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="employeeId" @bind-Value="_request.EmployeeId" class="form-control">
+                <option value="">--- Select Employee ---</option>
+                @foreach (var employee in Employees.Where(x => x.ProjectId == 51 && x.RoleId == "5" ))
+                {
+                    <option value="@employee.Id">@employee.FullName</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <br />
+    <div class="form-group row">
+        <label for="projectId" class="col-sm-2 col-form-label">
+            Select Project 
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="projectId" @bind-Value="_request.ProjectId" class="form-control">
+                <option value="">--- Select Project ---</option>
+                @foreach (var project in Projects.Where(x => x.ProjectLeadId == ProjectLead.Id))
+                {
+                    <option value="@project.ProjectId">@project.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</EditForm>

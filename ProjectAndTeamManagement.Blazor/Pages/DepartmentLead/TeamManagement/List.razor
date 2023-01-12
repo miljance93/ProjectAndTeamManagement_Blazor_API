@@ -1,0 +1,42 @@
+﻿@page "/departmentlead/teammanagement/list"
+@inject NavigationManager UriHelper
+<h1>Team Management</h1>
+
+<div>
+    <button style='display: @(createNewTeam ? "none" : "block")' class="btn btn-primary" @onclick="() => createNewTeam = true">Create new Team</button>
+    @if (createNewTeam)
+    {
+        <CreateNewTeam />
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Team Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Employees)
+                {
+                    <tr>
+                        <td>@employee.FirstName</td>
+                        <td>@employee.LastName</td>
+                        <td>@Teams.FirstOrDefault(x => x.TeamId == employee.TeamId)?.TeamName</td>
+                        @if (employee.TeamId == 1)
+                        {
+                            <td><button type="button" @onclick="() => AssignEmployeeToTeam(employee.Id)" class="btn btn-primary">Assign to team</button></td>
+                        }
+                        else
+                        {
+                            <td><button type="button" @onclick="() => RemoveFromTeam(employee.Id)" class="btn btn-danger">Remove from team</button></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,25 @@
+﻿@page "/departmentlead/teammanagement/assigntoteam/{employeeId}"
+
+<h3>Assign To Team</h3>
+
+<EditForm Model="_team" OnValidSubmit="AssignEmployeeToTeam">
+    <div class="form-group row">
+        <label for="employeeId" class="col-sm-2 col-form-label">
+            Select Team
+        </label>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <InputSelect id="teamId" @bind-Value="_team.TeamId" class="form-control">
+                <option>--- Select Team ---</option>
+                @foreach (var team in Teams)
+                {
+                    <option value="@team.TeamId">@team.TeamName</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</EditForm>

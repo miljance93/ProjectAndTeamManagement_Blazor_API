@@ -1,0 +1,52 @@
+﻿@page "/teamlead/projectassignment"
+
+<h1>Project Assignment</h1>
+
+@if (Employees == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (addToProject)
+    {
+        <AddToProject Id="@empId"/>
+    }
+    else
+    {
+        <div style='display: @(addToProject ? "none" : "block")'>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Project</th>
+                        <th>Team</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Employees)
+                    {
+                        <tr>
+                            <td>@employee.Email</td>
+                            <td>@employee.FirstName</td>
+                            <td>@employee.LastName</td>
+                            <td>@Projects.FirstOrDefault(x => x.ProjectId == employee.ProjectId)?.Name</td>
+                            <td>@Teams.FirstOrDefault(x => x.TeamId == employee.TeamId)?.TeamName</td>
+                            @if (employee.ProjectId == 51)
+                            {
+                                <td><button class="btn btn-primary" @onclick="() => AddToProject(employee.Id)">Add To Project</button></td>
+                            }
+                            else
+                            {
+                                <td><button class="btn btn-danger" @onclick="() => RemoveFromProject(employee.Id)">Remove From Project</button></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
